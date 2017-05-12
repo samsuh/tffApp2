@@ -1,0 +1,103 @@
+<html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<style>
+  body{
+    margin: 10px;
+  }
+  th,tr{
+    text-align: center;
+  }
+</style>
+<script>
+  function ConfirmArchive()
+    {
+      var x = confirm("Are you sure you want to archive?");
+      if (x)
+          return true;
+      else
+        return false;
+    }
+
+    function ConfirmDelete()
+    {
+      var x = confirm("Are you sure you want to delete?");
+      if (x)
+          return true;
+      else
+        return false;
+    }
+</script>
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Plant Management System</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/new">Create New Plants</a></li>
+        <li class="active"><a href="#">Display All Plants</a></li>
+        <li><a href="/getArchived">Archived Plants</a></li>
+        <li><a href="/showSnapshot">Snapshot</a></li>
+      </ul>
+    </div>
+  </nav>
+
+    <h2>All Plants </h2>
+    <% if (results) { %>
+    <table class = "table table-condensed">
+      <tr>
+        <th>Name</th>
+        <!-- <th>id</th> -->
+        <th>Origin</th>
+        <th>When To Plant</th>
+        <th>Location</th>
+        <th>Image</th>
+        <th>Actions</th>
+        <th></th>
+      </tr>
+       <% for (var x in results) { %>
+       <tr>
+         <td><a href="/plants/<%=results[x].name%>"><%= results[x].name%></a></td>
+         <!-- <td><%= results[x]._id%></td> -->
+         <td><%= results[x].origin%></td>
+         <td><%= results[x].whenToPlant%></td>
+         <td><%= results[x].location%></td>
+           <% if (results[x].imgStr1!=undefined && results[x].imgStr1.length != 0 || results[x].imgStr2!=undefined && results[x].imgStr2.length != 0 || results[x].imgStr3!=undefined && results[x].imgStr3.length != 0 || results[x].imgStr4!=undefined && results[x].imgStr4.length != 0){ %>
+           <td class = "success">ready</td>
+            <% }else {%>
+            <td class = "danger">N/A</td>
+            <%}%>
+
+        <td>
+          <form action="/edit/<%=results[x].name%>">
+                <input type="submit" value = 'edit' class = "btn btn-primary">
+          </form>
+        </td>
+        <td>
+          <form action="/archive/<%=results[x].name%>" method = "post">
+                <input type="submit" Onclick="return ConfirmArchive();" value = 'archive' class = "btn btn-warning">
+                
+          </form>
+        </td>
+        <td>
+          <form action="/removePlant/<%=results[x].name%>" method = "post">
+                <input type="submit" Onclick="return ConfirmDelete();" value = 'delete' class = "btn btn-danger">
+          </form>
+        </td>
+        <td>
+          <form action="/toPrintPage/<%=results[x].name%>" method = "post">
+                <input type="submit" value = 'print label' class = "btn btn-success">
+          </form>
+        </td>
+       </tr>
+
+
+     <% } %>
+    </table>
+     <% }%>
+
+
+</body>
+
+</html>

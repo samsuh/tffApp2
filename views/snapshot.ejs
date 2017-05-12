@@ -1,0 +1,71 @@
+<html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<style>
+  body{
+    margin: 10px;
+  }
+
+</style>
+<script>
+  function ConfirmDelete()
+    {
+      var x = confirm("Are you sure you want to delete this snapshot?");
+      if (x)
+        return true;
+      else
+        return false;
+    }
+    function ConfirmRestore()
+    {
+      var x = confirm("Are you sure to restore database from this snapshot?");
+      if (x)
+        return true;
+      else
+        return false;
+    }
+</script>
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Plant Management System</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/new">Create New Plants</a></li>
+        <li><a href="/all">Display All Plants</a></li>
+        <li><a href="/getArchived">Archived Plants</a></li>
+        <li class="active"><a href="#">Snapshot</a></li>
+      </ul>
+    </div>
+  </nav>
+
+    <h2>Snapshots</h2>
+    <a href="/createSnapshot" class = "btn btn-success">Create Snapshot</a>
+    <h4>*Snapshots are back-ups of your database. Remove snapshots are strongly not recommended.</h4>
+    <% if (results) { %>
+      <table class = "table table-condensed">
+
+        <% for (var x in results) { %>
+          <tr>
+            <td><%=results[x] %></td>
+            <td>
+              <form action="/restoreFromSnapshot/<%=results[x]%>" method = "post">
+                <input type="submit" Onclick="return ConfirmRestore();" class = "btn btn-default" value = "Restore from this snapshot">
+              </form>
+            </td>
+            <td>
+              <form action="/removeSnapshot/<%=results[x]%>" method = "post">
+                <input type="submit" Onclick="return ConfirmDelete();" class = "btn btn-danger" value = "Remove this snapshot">
+              </form>
+            </td>
+          </tr>
+        <% }%>
+
+      </table>
+    <% }%>
+
+
+</body>
+
+</html>

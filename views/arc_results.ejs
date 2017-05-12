@@ -1,0 +1,78 @@
+<html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<style>
+  body{
+    margin: 10px;
+  }
+  th,tr{
+    text-align: center;
+  }
+</style>
+<script>
+  function ConfirmRestore()
+    {
+      var x = confirm("Are you sure you want to restore this plant?");
+      if (x)
+          return true;
+      else
+        return false;
+    }
+</script>
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Plant Management System</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/new">Create New Plants</a></li>
+        <li><a href="/all">Display All Plants</a></li>
+        <li class="active"><a href="#">Archived Plants</a></li>
+        <li><a href="/showSnapshot">Snapshot</a></li>
+      </ul>
+    </div>
+  </nav>
+
+    <h2>Archived Plants</h2>
+    <% if (results) { %>
+    <table class = "table table-condensed">
+      <tr>
+        <th>Name</th>
+        <!-- <th>id</th> -->
+        <th>Origin</th>
+        <th>When To Plant</th>
+        <th>Location</th>
+        <th>Image</th>
+        <th>Actions</th>
+      </tr>
+       <% for (var x in results) { %>
+       <tr>
+         <td><a href="/plants/<%=results[x].name%>"><%= results[x].name%></a></td>
+         <!-- <td><%= results[x]._id%></td> -->
+         <td><%= results[x].origin%></td>
+         <td><%= results[x].whenToPlant%></td>
+         <td><%= results[x].location%></td>
+           <% if (results[x].imgStr1!=undefined && results[x].imgStr1.length != 0 || results[x].imgStr2!=undefined && results[x].imgStr2.length != 0 || results[x].imgStr3!=undefined && results[x].imgStr3.length != 0 || results[x].imgStr4!=undefined && results[x].imgStr4.length != 0){ %>
+           <td class = "success">ready</td>
+            <% }else {%>
+            <td class = "danger">N/A</td>
+            <%}%>
+
+        <td>
+          <form action="/restore/<%=results[x].name%>" method = "post">
+                <input type="submit" Onclick="return ConfirmRestore();" value = 'restore' class = "btn btn-default">
+          </form>
+        </td>
+
+       </tr>
+
+
+     <% } %>
+    </table>
+     <% }%>
+
+
+</body>
+
+</html>

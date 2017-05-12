@@ -1,0 +1,152 @@
+<html>
+	<head>
+	 <title>new</title>
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	 <style>
+		body{
+			margin: 10px;
+		}
+		#more{
+			border-radius: 50%;
+			color:red;
+			display: block;
+			margin: 10px;
+		}
+		#imgdiv1,#imgdiv2,#imgdiv3,#imgdiv4{
+			padding-bottom: 10px;
+		}
+	 </style>
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	 <script type='text/javascript'>
+		function encodeImageFileAsURL(num){
+			var n = num;
+		    var filesSelected = document.getElementById("inputFileToLoad"+n).files;
+		    if (filesSelected.length > 0)
+		    {
+		        var fileToLoad = filesSelected[0];
+
+		        var fileReader = new FileReader();
+
+		        fileReader.onload = function(fileLoadedEvent) {
+		            var srcData = fileLoadedEvent.target.result; // <--- data: base64
+
+		            var newImage = document.createElement('img');
+		            newImage.src = srcData;
+
+		            document.getElementById("imgTest"+n).innerHTML = newImage.outerHTML;
+		            // alert("Converted Base64 version is "+document.getElementById("imgTest").innerHTML);
+		            // console.log("Converted Base64 version is "+document.getElementById("imgTest").innerHTML);
+
+		            var str = document.getElementById("imgTest"+n).innerHTML;
+		            var index = str.indexOf(",");
+		            var str2 = str.slice(index+1,str.length-2);
+		            document.getElementById("imgStr"+n).value = str2;
+		            console.log(str2);
+		        }
+		        fileReader.readAsDataURL(fileToLoad);
+		    }
+		}
+
+		$(document).ready(function(){
+			$("#imgdiv1").show();
+			$("#imgdiv2").hide();
+			$("#imgdiv3").hide();
+			$("#imgdiv4").hide();
+			$("#more").click(function(){
+				if($("#imgdiv2").is(':hidden')){
+					$("#imgdiv2").show();
+				}else if($("#imgdiv3").is(':hidden') && $("#imgdiv2").is(':visible')){
+					$("#imgdiv3").show();
+				}else if($("#imgdiv4").is(':hidden') && $("#imgdiv3").is(':visible')){
+					$("#imgdiv4").show();
+				}
+
+			})
+		})
+
+</script>
+	</head>
+
+	<body>
+		<nav class="navbar navbar-default">
+		    <div class="container-fluid">
+		      <div class="navbar-header">
+		        <a class="navbar-brand" href="#">Plant Management System</a>
+		      </div>
+		      <ul class="nav navbar-nav">
+		        <li><a href="/">Home</a></li>
+		        <li class="active"><a href="#">Create New Plants</a></li>
+		        <li><a href="/all">Display All Plants</a></li> 
+        		<li><a href="/getArchived">Archived Plants</a></li>
+        		<li><a href="/showSnapshot">Snapshot</a></li>
+		      </ul>
+		    </div>
+		</nav>
+	 <h3>Create entry for new plants</h3>
+	 <form action='/plants' method='post'>
+		<div class = "form-group">
+	 		<label for="name">Plant Name</label>
+	 		<input type='text' class = "form-control" name='name' id = "name">
+	 	</div>
+	 	<div class = "form-group">
+	 		<label for="origin">Origin</label>
+			<input type='text' class = "form-control" name='origin' id = "origin">
+		</div>
+		<div class = "form-group">
+	 		<label for="whenToPlant">When To Plant</label>
+			<input type='text' class = "form-control" name='whenToPlant' id = "whenToPlant">
+		</div>
+		<div class = "form-group">
+	 		<label for="coolFact">Cool Fact</label>
+			<input type='text' class = "form-control" name='coolFact' id = "coolFact">
+		</div>
+	 	<div class = "form-group">
+	 		<label for="description">Description</label>
+			<input type='text' class = "form-control" name='description' id = "description">
+		</div>
+	 	<div class = "form-group">
+	 		<label for="location">Location</label>
+	 		<input type='text' class = "form-control" name='location' id = "location" placeholder = "seperate with comma">
+	 	</div>
+
+	 	
+	 	<div id = "imgdiv1">
+	 		<input id="inputFileToLoad1" type="file" onchange="encodeImageFileAsURL(1);" />
+	 		<div id="imgTest1"></div>
+			
+			<input type="text" name = "imgname1" placeholder = "describe image1 here">
+			<input type="text" name = "imgStr1" value = "" id = "imgStr1" readonly>
+	 	</div>
+		
+		<div id = "imgdiv2">
+			<input id="inputFileToLoad2" type="file" onchange="encodeImageFileAsURL(2);" />
+			<div id="imgTest2"></div>
+			
+			<input type="text" name = "imgname2" placeholder = "describe image2 here">
+			<input type="text" name = "imgStr2" value = "" id = "imgStr2" readonly>
+		</div>
+		
+		<div id = "imgdiv3">
+			<input id="inputFileToLoad3" type="file" onchange="encodeImageFileAsURL(3);" />
+			<div id="imgTest3"></div>
+			
+			<input type="text" name = "imgname3" placeholder = "describe image3 here">
+			<input type="text" name = "imgStr3" value = "" id = "imgStr3" readonly>
+		</div>
+		
+		<div id = "imgdiv4">
+			<input id="inputFileToLoad4" type="file" onchange="encodeImageFileAsURL(4);" />
+			<div id="imgTest4"></div>
+			
+			<input type="text" name = "imgname4" placeholder = "describe image4 here">
+			<input type="text" name = "imgStr4" value = "" id = "imgStr4" readonly>
+		</div>
+		<button id = "more" class = "btn btn-default" type="button">+</button>	
+
+	 <button type="submit" class = "btn btn-success">Submit</button>
+	 </form>
+
+
+
+	</body>
+</html
