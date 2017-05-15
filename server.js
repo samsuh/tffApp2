@@ -10,7 +10,7 @@ app.use(express.static(__dirname+"/public"));
 app.set('views',path.join(__dirname,'./views'));
 app.set('view engine','ejs');
 
-require('./server/config/mongoose.js');
+// require('./server/config/mongoose.js');
 require('./server/config/routes.js')(app);
 
 var server = app.listen(8001,function(){

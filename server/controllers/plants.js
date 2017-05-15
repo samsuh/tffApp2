@@ -1,5 +1,5 @@
 // var mongoose = require('mongoose');
-// var Plant = mongoose.model('plants');
+// var Plant = mongoose.model('Plant');
 var fs = require('fs');
 var all = require("./../../allPlants.json");
 
@@ -137,36 +137,20 @@ module.exports = (function(){
 				imgname3:(req.body.imgname3!="")?req.body.imgname3:"img3",
 				imgname4:(req.body.imgname4!="")?req.body.imgname4:"img4",
 			};
-			// console.log(newPlant);
-			var plant = new Plant(newPlant);
-			// 	{name:(req.body.name !="")?req.body.name:"untitled",
-			// description:req.body.description,
-			// location:req.body.location,
-			// origin:req.body.origin,
-			// whenToPlant:req.body.whenToPlant,
-			// coolFact:req.body.coolFact,
-			// imgStr1:req.body.imgStr1,
-			// imgStr2:req.body.imgStr2,
-			// imgStr3:req.body.imgStr3,
-			// imgStr4:req.body.imgStr4,
-			// created_at:Date(),
-			// updated_at:Date(),
-			// archived:false,
-			// imgname1:(req.body.imgname1!="")?req.body.imgname1:"img1",
-			// imgname2:(req.body.imgname2!="")?req.body.imgname2:"img2",
-			// imgname3:(req.body.imgname3!="")?req.body.imgname3:"img3",
-			// imgname4:(req.body.imgname4!="")?req.body.imgname4:"img4"});
-			plant.save(function(err){
-		if(err){
-			console.log('something went wrong');
-		}else{
-			console.log('successfully added a plant');
-			console.log(plant)
+			res.redirect('/all')
 
-			res.json(plant);
-			//res.redirect('/plant')
-		}
-	})
+			// var plant = new Plant(newPlant);
+	// 		plant.save(function(err){
+	// 	if(err){
+	// 		console.log('something went wrong');
+	// 	}else{
+	// 		console.log('successfully added a plant');
+	// 		console.log(plant)
+	//
+	// 		// res.json(plant);
+	// 		res.redirect('/all')
+	// 	}
+	// })
 
 			create_unique(newPlant, function(data){
 				if(data == null){
