@@ -2,12 +2,12 @@
   "dependencies": {
     "bcryptjs": "*",
     "body-parser": "^1.15.0",
-    "connect-flash": "*",
-    "cookie-parser": "*",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "express-messages": "*",
-    "express-session": "*",
+    "express-session": "^1.15.3",
     "express-validator": "^3.2.0",
     "fs-extra": "^0.26.7",
     "jade": "^1.11.0",
@@ -15,9 +15,9 @@
     "mongodb": "*",
     "mongoose": "^4.9.8",
     "multer": "^1.1.0",
-    "passport": "*",
+    "passport": "^0.3.2",
     "passport-http": "*",
-    "passport-local": "*",
+    "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "qrcode": "^0.4.2"
   }

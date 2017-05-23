@@ -21,6 +21,7 @@ var fs = require("fs");
 app.use(bodyParser.urlencoded({extended: true,limit:'50mb'}));
 
 
+
 // require('./server/config/mongoose.js');
 require('./server/config/routes.js')(app);
 
