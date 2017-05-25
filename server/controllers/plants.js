@@ -114,6 +114,7 @@ module.exports = (function(){
 		},
 		getArchived:function(req,res){
 			get_archived(function(data){
+
 				return res.render('arc_results', {results: data});
 			})
 		},
@@ -155,24 +156,6 @@ module.exports = (function(){
 
 				}
 			})
-
-
-
-			// req.flash('info', 'Hi there!')
-		  // res.redirect('/new')
-
-	// var plant = new Plant(newPlant);
-	// 		plant.save(function(err){
-	// 	if(err){
-	// 		console.log('something went wrong');
-	// 	}else{
-	// 		console.log('successfully added a plant');
-	// 		console.log(plant)
-	//
-	// 		// res.json(plant);
-	// 		res.redirect('/all')
-	// 	}
-	// })
 
 
 		},
