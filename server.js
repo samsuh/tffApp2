@@ -1,14 +1,15 @@
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
 
 // Used for flash messages on create plant page
-var session = require('express-session');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
 var flash = require('connect-flash');
+var passport = require('passport');
 
-app.use(bodyParser.json());
 app.use(cookieParser('secretString'));
+app.use(bodyParser.json());
 app.use(session({
 		cookie: { maxAge: 60000 },
 		secret: "cookie_secret",
@@ -17,6 +18,10 @@ app.use(session({
     resave: true,
     saveUninitialized: true}));
 app.use(flash());
+
+//Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 var path = require('path');
 var fs = require("fs");
@@ -36,9 +41,7 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://admin:admin123@localhost:27017/admin');
 var db = mongoose.connection;
 
-app.use(bodyParser.json());
 var fs = require("fs");
-app.use(bodyParser.urlencoded({extended: true,limit:'50mb'}));
 
 
 // require('./server/config/mongoose.js');
@@ -69,9 +72,7 @@ require('./server/config/routes.js')(app);
 // 	resave: true
 // }));
 
-//Passport
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 //Express Validator
 app.use(expressValidator({
@@ -99,6 +100,7 @@ app.use(function(req, res, next){
 	res.locals.success_msg = req.flash('success_msg');
 	res.locals.error_msg = req.flash('error_msg');
 	res.locals.error = req.flash('error');
+	res.locals.user = req.user || null;
 	next();
 });
 
