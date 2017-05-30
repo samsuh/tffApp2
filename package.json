@@ -8,6 +8,7 @@
     "express": "^4.13.4",
     "express-messages": "*",
     "express-session": "^1.15.3",
+    "express-sessions": "^1.0.6",
     "express-validator": "^3.2.0",
     "fs-extra": "^0.26.7",
     "jade": "^1.11.0",
