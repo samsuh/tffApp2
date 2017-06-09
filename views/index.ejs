@@ -16,6 +16,9 @@
 		#logo{
 			width: 200px;
 		}
+		#loginform{
+			display:inline-block;
+		}
 	 </style>
 	</head>
 	<body>
@@ -32,6 +35,13 @@
 		        <li><a href="/showSnapshot">Snapshot</a></li>
 		      </ul>
 		    </div>
+				<form method = "post" action = "/login" class="loginform">
+				  <label>Username</label>
+				  <input type="text" name="username" placeholder="Username">
+				  <label>Password</label>
+				  <input type="password" name="password" placeholder="Password">
+				  <button type = "submit">Login</button>
+				</form>
 		</nav>
 
 <!-- add flash messages here from login/registration checking for Global Vars: success_msg, error_msg, error-->

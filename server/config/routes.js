@@ -3,22 +3,61 @@ var multer = require('multer');
 var fs = require('fs');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
+var express = require('express');
 var User = require('../models/user')
-
-
 
 // var QRCode = require('qrcode');
 
 module.exports = function(app){
-	//root
+	// unprotected routes
 	app.get('/',function(req,res){
+		console.log(req.isAuthenticated());
 		res.render('index');
 	});
 
-	app.get('/new',function(req,res){
-		res.render('new');
+	app.get('/login', function(req,res){
+		res.render('login', {message: req.flash("message")})
 	});
+
+	app.post('/login',
+		passport.authenticate('local-login', {successRedirect:'/', failureRedirect:'/login', failureFlash:true}),
+		function(req,res){
+			console.log('login hits properly' + username)
+			res.redirect('/');
+		});
+
+	// protected routes
+
+
+	function validateUser(req, res, next){
+		if (req.isAuthenticated())
+	      return next();
+	  res.redirect('/');
+	}
+
+	// Defining New Router
+	var userRouter = express.Router();
+	// Setting Base Path of New Router
+	app.use("/users", userRouter);
+	//
+	// Adding Validate User Middle Ware
+	// All routes defined after this line will run validateUser
+	// before processing request
+	userRouter.get('/safe', function(req, res){
+		res.send("THIS IS A PUBLIC ROUTE")
+	})
+
+	userRouter.use(validateUser);
+
+	// Route
+	userRouter.get('/new', function(req, res){
+		res.render('new');
+	})
+// // you can do it this way also, quicker and dirtier, but this is bad code.
+// 	app.use(validateUser);
+	// app.get('/new',function(req,res){
+	// 	res.render('new');
+	// });
 
 	app.post('/toPrintPage/:name',function(req,res){
 		plants.toPrintPage(req,res);
@@ -107,58 +146,28 @@ module.exports = function(app){
 		plants.removeSnapshot(req,res);
 	})
 
+		//Auth Example
+		// app.use("/auth", authRouter);
+
 
 //users page
+
+
+
 	app.get('/users',function(req,res){
 		res.render('users');
 	});
 
-	app.get('/register', function(req,res){
-		res.render('register')
+	app.get('/signup', function(req,res){
+		res.render('signup', {message: req.flash("message")})
 	});
 
-	app.get('/login', function(req,res){
-		res.render('login')
-	});
 
-	app.post('/register', function(req,res){
-		//registration form submit comes here
-		var name = req.body.name;
-		var email = req.body.email;
-		var username = req.body.username;
-		var password = req.body.password;
-		var password2 = req.body.password2;
-
-		//VALIDATION
-		req.checkBody('name', 'Name is required').notEmpty();
-		req.checkBody('email', 'Email is required').notEmpty();
-		req.checkBody('email', 'Email is invalid').isEmail();
-		req.checkBody('username', 'Username is required').notEmpty();
-		req.checkBody('password', 'Password is required').notEmpty();
-		req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
-
-		var user = require('../models/user')
-		var errors = req.validationErrors();
-//this doesnt work right now. cant find the key "errors"
-		if(errors){
-			res.render('register', {errors:errors})
-		} else{
-			var newUser = new User({
-				name: name,
-				email: email,
-				username: username,
-				password: password
-			});
-
-			User.createUser(newUser, function(err, user){
-				if(err) throw err;
-				console.log(user);
-			});
-			req.flash('success_msg', "You have successfully registered!")
-
-			res.redirect('/');
-		}
-	});
+	app.post('/signup', passport.authenticate('local-signup', {
+  successRedirect: '/',
+  failureRedirect: '/signup',
+  failureFlash: true,
+}));
 
 //gets username, finds if it exists, then validates password
 	passport.use(new LocalStrategy(
@@ -188,12 +197,6 @@ module.exports = function(app){
 		  User.getUserById(id, function(err, user) {
 		    done(err, user);
 		  });
-		});
-
-	app.post('/login',
-		passport.authenticate('local', {successRedirect:'/', failureRedirect:'/login', failureFlash:true}),
-		function(req,res){
-			res.redirect('/');
 		});
 
 	app.get('/logout', function(req,res){
