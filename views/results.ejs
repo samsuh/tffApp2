@@ -35,10 +35,10 @@
       </div>
       <ul class="nav navbar-nav">
         <li><a href="/">Home</a></li>
-        <li><a href="/new">Create New Plants</a></li>
+        <li><a href="/users/new">Create New Plants</a></li>
         <li class="active"><a href="#">Display All Plants</a></li>
-        <li><a href="/getArchived">Archived Plants</a></li>
-        <li><a href="/showSnapshot">Snapshot</a></li>
+        <li><a href="/users/getArchived">Archived Plants</a></li>
+        <li><a href="/users/showSnapshot">Snapshot</a></li>
       </ul>
     </div>
   </nav>
@@ -77,7 +77,7 @@
         <td>
           <form action="/archive/<%=results[x].name%>" method = "post">
                 <input type="submit" Onclick="return ConfirmArchive();" value = 'archive' class = "btn btn-warning">
-                
+
           </form>
         </td>
         <td>

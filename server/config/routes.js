@@ -53,6 +53,23 @@ module.exports = function(app){
 	userRouter.get('/new', function(req, res){
 		res.render('new');
 	})
+
+	userRouter.get('/all', function(req, res){
+		res.render('all');
+	})
+
+	userRouter.get('/getArchived', function(req, res){
+		res.render('getArchived');
+	})
+
+	userRouter.get('/showSnapshot', function(req, res){
+		res.render('showSnapshot');
+	})
+	userRouter.get('/signup', function(req, res){
+		res.render('signup');
+	})
+
+
 // // you can do it this way also, quicker and dirtier, but this is bad code.
 // 	app.use(validateUser);
 	// app.get('/new',function(req,res){
@@ -202,7 +219,7 @@ module.exports = function(app){
 	app.get('/logout', function(req,res){
 		req.logout();
 		req.flash('success_msg', 'You are logged out');
-		res.redirect('/login')
+		res.redirect('/')
 	});
 
 

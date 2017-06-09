@@ -1,6 +1,21 @@
 <% include partials/head %>
 
   <body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Plant Management System</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="/users/new">Create New Plants</a></li>
+            <li><a href="/users/all">Display All Plants</a></li>
+            <li><a href="/users/getArchived">Archived Plants</a></li>
+            <li><a href="/users/showSnapshot">Snapshot</a></li>
+            <li><a href="/users/signup">Signup</a></li>
+          </ul>
+        </div>
+    </nav>
     <div class="col-sm-8 col-sm-offset-2">
       <div class="jumbotron text-center">
         <h1><span class="fa fa-sign-in"></span> Signup</h1>
