@@ -1,8 +1,9 @@
 var express = require('express');
+var app = express();
 var passport = require('passport');
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
+app.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
@@ -58,7 +59,6 @@ router.post('/login', passport.authenticate('local-login', {
 //   failureRedirect: '/',
 // }));
 
-module.exports = router;
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())
