@@ -65,9 +65,9 @@ module.exports = function(app){
 	userRouter.get('/showSnapshot', function(req, res){
 		res.render('showSnapshot');
 	})
-	// userRouter.get('/signup', function(req, res){
-	// 	res.render('signup');
-	// })
+	userRouter.get('/signup', function(req, res){
+		res.render('signup');
+	})
 
 
 // // you can do it this way also, quicker and dirtier, but this is bad code.
