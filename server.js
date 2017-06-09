@@ -7,6 +7,12 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
 var passport = require('passport');
+require('./config/passport')(passport);
+
+
+//login app dependencies
+var favicon = require('serve-favicon');
+var logger = require('morgan');
 
 app.use(cookieParser('secretString'));
 app.use(bodyParser.json());
@@ -38,14 +44,17 @@ var passport = require('passport');
 var LocalStrategy = require ('passport-local'), Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://admin:admin123@localhost:27017/admin');
-var db = mongoose.connection;
+// mongoose.connect('mongodb://admin:admin123@localhost:27017/admin');
+// var db = mongoose.connection;
+var configDB = require('./config/database.js');
+mongoose.connect(configDB.url);
 
 var fs = require("fs");
 
 
 // require('./server/config/mongoose.js');
 require('./server/config/routes.js')(app);
+var routes = require('./routes/index');
 
 
 
@@ -74,35 +83,30 @@ require('./server/config/routes.js')(app);
 
 
 
-//Express Validator
-app.use(expressValidator({
-  errorFormatter: function(param, msg, value) {
-      var namespace = param.split('.')
-      , root    = namespace.shift()
-      , formParam = root;
-
-    while(namespace.length) {
-      formParam += '[' + namespace.shift() + ']';
-    }
-    return {
-      param : formParam,
-      msg   : msg,
-      value : value
-    };
-  }
-}));
-
-//Flash Messages
-app.use(flash());
-
-//global variables for flash
-app.use(function(req, res, next){
-	res.locals.success_msg = req.flash('success_msg');
-	res.locals.error_msg = req.flash('error_msg');
-	res.locals.error = req.flash('error');
-	res.locals.user = req.user || null;
-	next();
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
+
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err,
+    });
+  });
+}
+
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {},
+  });
+});
+
 
 //View Engine
 app.use(express.static(__dirname+"/public"));
