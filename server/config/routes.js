@@ -26,55 +26,9 @@ module.exports = function(app){
 			res.redirect('/');
 		});
 
-	// protected routes
-
-
-	function validateUser(req, res, next){
-		if (req.isAuthenticated())
-	      return next();
-	  res.redirect('/');
-	}
-
-	// Defining New Router
-	var userRouter = express.Router();
-	// Setting Base Path of New Router
-	app.use("/users", userRouter);
-	//
-	// Adding Validate User Middle Ware
-	// All routes defined after this line will run validateUser
-	// before processing request
-	userRouter.get('/safe', function(req, res){
-		res.send("THIS IS A PUBLIC ROUTE")
+	app.get('plants/:name', function(req, res){
+		plants.show(req,res);
 	})
-
-	userRouter.use(validateUser);
-
-	// Route
-	userRouter.get('/new', function(req, res){
-		res.render('new');
-	})
-
-	userRouter.get('/all', function(req, res){
-		res.render('all');
-	})
-
-	userRouter.get('/getArchived', function(req, res){
-		res.render('getArchived');
-	})
-
-	userRouter.get('/showSnapshot', function(req, res){
-		res.render('showSnapshot');
-	})
-	userRouter.get('/signup', function(req, res){
-		res.render('signup');
-	})
-
-
-// // you can do it this way also, quicker and dirtier, but this is bad code.
-// 	app.use(validateUser);
-	// app.get('/new',function(req,res){
-	// 	res.render('new');
-	// });
 
 	app.post('/toPrintPage/:name',function(req,res){
 		plants.toPrintPage(req,res);
@@ -88,23 +42,6 @@ module.exports = function(app){
 	//add plants
 	app.post('/plants',function(req,res){
 		plants.add(req,res);
-	});
-
-	//get all plants
-	app.get('/all',function(req,res){
-		plants.index(req,res);
-	});
-
-	//get all plants
-	app.get('/getArchived',function(req,res){
-		plants.getArchived(req,res);
-	});
-
-	//get plant by id
-	app.get('/plants/:name',function(req,res){
-		//console.log(req.params.id);
-		plants.show(req,res);
-		//plants.show(req,res);
 	});
 
 	//update plant
@@ -147,9 +84,9 @@ module.exports = function(app){
 		plants.restore(req,res);
 	})
 
-	app.get('/showSnapshot',function(req,res){
-		plants.getSnapshot(req,res);
-	})
+	// app.get('/showSnapshot',function(req,res){
+	// 	plants.getSnapshot(req,res);
+	// })
 
 	app.get('/createSnapshot',function(req,res){
 		plants.createSnapshot(req,res);
@@ -163,13 +100,82 @@ module.exports = function(app){
 		plants.removeSnapshot(req,res);
 	})
 
+
+	// protected routes
+
+
+	function validateUser(req, res, next){
+		if (req.isAuthenticated())
+	      return next();
+	  res.redirect('/');
+	}
+
+	// Defining New Router
+	var userRouter = express.Router();
+	// Setting Base Path of New Router
+	app.use("/users", userRouter);
+	//
+	// Adding Validate User Middle Ware
+	userRouter.get('/safe', function(req, res){
+		res.send("THIS IS A PUBLIC ROUTE")
+	})
+	// All routes defined after this line will run validateUser
+	// before processing request
+
+	userRouter.use(validateUser);
+
+	// Route
+	userRouter.get('/new', function(req, res){
+		res.render('new');
+	})
+
+	userRouter.get('/all', function(req, res){
+		plants.index(req,res);
+	})
+
+	userRouter.get('/getArchived', function(req, res){
+		plants.getArchived(req,res);
+	})
+
+
+	userRouter.get('/showSnapshot', function(req, res){
+		plants.getSnapshot(req,res);
+	})
+	userRouter.get('/signup', function(req, res){
+		res.render('signup');
+	})
+
+
+// // you can do it this way also, quicker and dirtier, but this is bad code.
+// 	app.use(validateUser);
+	// app.get('/new',function(req,res){
+	// 	res.render('new');
+	// });
+
+
+	//get all plants
+	// app.get('/users/all',function(req,res){
+	// 	plants.index(req,res);
+	// });
+
+	//get all plants
+	// app.get('/getArchived',function(req,res){
+	// 	plants.getArchived(req,res);
+	// });
+
+	// //get plant by id
+	// app.get('/plants/:name',function(req,res){
+	// 	//console.log(req.params.id);
+	// 	plants.show(req,res);
+	// 	//plants.show(req,res);
+	// });
+
+
 		//Auth Example
 		// app.use("/auth", authRouter);
 
 
 //users page
-
-
 
 	app.get('/users',function(req,res){
 		res.render('users');

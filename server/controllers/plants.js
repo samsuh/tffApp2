@@ -167,7 +167,7 @@ module.exports = (function(){
 
 		},
 		update:function(req,res){
-			// console.log('1')
+			// console.log('hit the update function in plants controller')
 			var updated_plant = {
 				name: req.body.name,
 				description: req.body.description,
@@ -190,7 +190,7 @@ module.exports = (function(){
 			}
 
 			edit_by_id(req.body.name, updated_plant, function(data){
-				res.redirect('/all');
+				res.redirect('/users/all');
 			})
 
 		},
@@ -268,7 +268,7 @@ module.exports = (function(){
 				}
 
 				edit_by_id(req.params.name, updated_plant, function(data){
-					res.redirect('/all');
+					res.redirect('/users/all');
 				})
 			})
 
@@ -298,7 +298,7 @@ module.exports = (function(){
 				}
 
 				edit_by_id(req.params.name, updated_plant, function(data){
-					res.redirect('/getArchived');
+					res.redirect('/users/getArchived');
 				})
 			})
 		},
