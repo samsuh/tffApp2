@@ -26,7 +26,7 @@ module.exports = function(app){
 			res.redirect('/');
 		});
 
-	app.get('plants/:name', function(req, res){
+	app.get('/plants/:name', function(req, res){
 		plants.show(req,res);
 	})
 
@@ -116,6 +116,8 @@ module.exports = function(app){
 	app.use("/users", userRouter);
 	//
 	// Adding Validate User Middle Ware
+
+	//sample unprotected route
 	userRouter.get('/safe', function(req, res){
 		res.send("THIS IS A PUBLIC ROUTE")
 	})

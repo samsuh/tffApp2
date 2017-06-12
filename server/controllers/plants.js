@@ -234,6 +234,7 @@ module.exports = (function(){
 			})
 		},
 		show:function(req,res){
+			console.log('hitting the show function in plants controller')
 			get_by_id(req.params.name, function(data){
 				res.render("show",{plant:data});
 			})
@@ -307,7 +308,7 @@ module.exports = (function(){
 			var filename = "snapshot_"+Date()+".json";
 			var filename_mod = filename.split(' ').join('');
 			fs.writeFile(filename_mod, JSON.stringify(all, null, 4), function(err){
-				res.redirect('/showSnapshot');
+				res.redirect('/users/showSnapshot');
 			})
 		},
 
