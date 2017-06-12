@@ -11,7 +11,8 @@ var User = require('../models/user')
 module.exports = function(app){
 	// unprotected routes
 	app.get('/',function(req,res){
-		console.log(req.isAuthenticated());
+		console.log("user is logged in: " + req.isAuthenticated());
+		console.log(req.user);
 		res.render('index');
 	});
 
@@ -143,8 +144,9 @@ module.exports = function(app){
 	userRouter.get('/showSnapshot', function(req, res){
 		plants.getSnapshot(req,res);
 	})
+
 	userRouter.get('/signup', function(req, res){
-		res.render('signup');
+		res.render('signup', {message: req.flash("message")})
 	})
 
 
@@ -183,9 +185,9 @@ module.exports = function(app){
 		res.render('users');
 	});
 
-	app.get('/signup', function(req,res){
-		res.render('signup', {message: req.flash("message")})
-	});
+	// app.get('/signup', function(req,res){
+	// 	res.render('signup', {message: req.flash("message")})
+	// });
 
 
 	app.post('/signup', passport.authenticate('local-signup', {
